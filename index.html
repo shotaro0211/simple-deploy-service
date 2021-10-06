@@ -1,0 +1,28 @@
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+
+<script>
+  window.ethereum.enable();
+  let abi
+  let bytecode
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+
+  const buttonSet = async() => {
+    abi = JSON.parse(document.getElementById('abi').value);
+    bytecode = JSON.parse(document.getElementById('bytecode').value).object;
+  };
+
+  const buttonDeploy = async() => {
+    const signer = provider.getSigner();
+    const factory = new ethers.ContractFactory(abi,bytecode,signer);
+    const contract = await factory.deploy();
+  };
+</script>
+
+<label>abi</label><br>
+<textarea id="abi" name="abi" rows="20" cols="100"></textarea><br><br><br>
+<label>bytecode</label><br>
+<textarea id="bytecode" name="bytecode" rows="20" cols="100"></textarea><br><br><br>
+
+<button onclick="buttonSet()">setFile</button>
+<button onclick="buttonDeploy()">GetDeploy</button>
